@@ -13,7 +13,6 @@
 #define TRIG_PIN 12
 #define ECHO_PIN 2
 #define ECHO_INT 0
-#define BUFFER_SIZE 5
 #define STUCK_CHECK_INTERVAL 2200
 
 enum SPEED {
@@ -26,19 +25,16 @@ enum SPEED {
 };
 
 enum DISTANCE {
-	MAX = 800,
 	VERY_FAR = 400,
 	FAR = 260,
 	MEDIUM = 160,
 	EVADE = 60,
 	NEAR = 80,
-	THRESHOLD = 30,
+	THRESHOLD = 33,
 };
 
 unsigned int distance = THRESHOLD;
 unsigned int pastDistance = FAR;
-
-unsigned int distance_buffer[BUFFER_SIZE];
 
 Direction direction = REVERSE;
 SPEED speed = CASUAL;
@@ -56,32 +52,9 @@ MotorDriver* driver;
 UltrasoundSensor sensor(TRIG_PIN, ECHO_PIN, ECHO_INT);
 
 unsigned int saveDistance(unsigned int nextDistance) {
-	if (nextDistance <= 0 || nextDistance > MAX) nextDistance = distance;
+	if (nextDistance > VERY_FAR) nextDistance = VERY_FAR;
 
 	distance = nextDistance;
-	return distance;
-
-
-	//for (uint8_t i = 1; i < BUFFER_SIZE; i++)
-	//{
-	//	distance_buffer[i - 1] = distance_buffer[i];
-	//}
-
-	//distance_buffer[BUFFER_SIZE - 1] = nextDistance;
-
-	//return getDistance();
-}
-
-unsigned int getDistance() {
-	//unsigned int sum = 0;
-
-	//for (uint8_t i = 0; i < BUFFER_SIZE; i++)
-	//{
-	//	sum += distance_buffer[i];
-	//}
-
-	//return sum / BUFFER_SIZE;
-
 	return distance;
 }
 
@@ -118,8 +91,7 @@ void evade() {
 bool isStuck() {
 	static unsigned long pastDistanceLastCheckMs = 0;
 	if (millis() - pastDistanceLastCheckMs >= STUCK_CHECK_INTERVAL) {
-		// todo: update range
-		bool stuck = distance < 450 && abs(distance - pastDistance) <= 2;
+		bool stuck = abs(distance - pastDistance) <= 3;
 		pastDistance = distance;
 		pastDistanceLastCheckMs = millis();
 
@@ -132,11 +104,6 @@ bool isStuck() {
 void setup() {
 	pinMode(LED_PIN, OUTPUT);
 	driver = new JerkyDriver(MOTOR_PINS);
-
-	for (size_t i = 0; i < BUFFER_SIZE; i++)
-	{
-		distance_buffer[i] = THRESHOLD;
-	}
 
 	sensor.init();
 	sensor.start();
