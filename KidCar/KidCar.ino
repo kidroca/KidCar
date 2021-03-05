@@ -137,5 +137,5 @@ void loop() {
 		drive(FORWARD, FURY);
 	}
 
-	delay(30);
+	delay(66);
 }
