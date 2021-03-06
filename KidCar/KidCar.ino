@@ -68,24 +68,26 @@ void drive(Direction nextDir, SPEED nextSpeed) {
 }
 
 void evade() {
-	unsigned long start = millis();
-
-	while(millis() - start < 150) drive(FORWARD, STOP);
-	while (millis() - start < 450) drive(REVERSE, HASTE);
+	drive(FORWARD, STOP);
+	delay(150);
+	drive(REVERSE, HASTE);
+	delay(250);
 
 	drive(RIGHT, CASUAL);
-	start = millis();
-	while (distance < EVADE && millis()) {
-		if (millis() - start > 100) {
-			unsigned int measured = sensor.measure();
+	sensor.start();
+	while (distance < EVADE) {
+		if (sensor.isFinished()) {
+			unsigned int measured = sensor.getRange();
 			distance = saveDistance(measured);
-			start = millis();
+			delay(50);
+			sensor.start();
 		}
 	}
 
-	start = millis();
-	while (millis() - start < 250) drive(RIGHT, CASUAL);
-	while (millis() - start < 500) drive(RIGHT, STOP);
+	drive(RIGHT, CASUAL);
+	delay(250);
+	drive(RIGHT, STOP);
+	delay(250);
 }
 
 bool isStuck() {
@@ -110,32 +112,35 @@ void setup() {
 }
 
 void loop() {
-	unsigned int measured = sensor.measure();
-	distance = saveDistance(measured);
+	if (sensor.isFinished()) {
+		unsigned int measured = sensor.getRange();
+		distance = saveDistance(measured);
 
-	if (distance < THRESHOLD) {
-		evade();
-	}
-	else if (isStuck()) {
-		digitalWrite(LED_PIN, HIGH);
-		evade();
-		digitalWrite(LED_PIN, LOW);
-	}
-	else if (distance < NEAR) {
-		drive(FORWARD, CRAWL);
-	}
-	else if (distance < MEDIUM) {
-		drive(FORWARD, CAUTIOUS);
-	}
-	else if (distance < FAR) {
-		drive(FORWARD, CASUAL);
-	}
-	else if (distance < VERY_FAR) {
-		drive(FORWARD, HASTE);
-	}
-	else {
-		drive(FORWARD, FURY);
-	}
+		if (distance < THRESHOLD) {
+			evade();
+		}
+		else if (isStuck()) {
+			digitalWrite(LED_PIN, HIGH);
+			evade();
+			digitalWrite(LED_PIN, LOW);
+		}
+		else if (distance < NEAR) {
+			drive(FORWARD, CRAWL);
+		}
+		else if (distance < MEDIUM) {
+			drive(FORWARD, CAUTIOUS);
+		}
+		else if (distance < FAR) {
+			drive(FORWARD, CASUAL);
+		}
+		else if (distance < VERY_FAR) {
+			drive(FORWARD, HASTE);
+		}
+		else {
+			drive(FORWARD, FURY);
+		}
 
-	delay(66);
+		delay(50);
+		sensor.start();
+	}
 }

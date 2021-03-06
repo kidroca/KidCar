@@ -13,7 +13,7 @@ void UltrasoundSensor::init() {
     pinMode(_trigger, OUTPUT);
     digitalWrite(_trigger, LOW);
     pinMode(_echo, INPUT);
-    //attachInterrupt(digitalPinToInterrupt(_echo), _echo_isr, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(_echo), _echo_isr, CHANGE);
 }
 
 void UltrasoundSensor::start() {
