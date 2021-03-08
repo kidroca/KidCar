@@ -116,18 +116,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DefaultDriver.h" />
+    <ClInclude Include="DrivingBehavior.h" />
+    <ClInclude Include="DrvingWithUltrasoundSensor.h" />
     <ClInclude Include="UltrasoundSensor.h" />
-    <ClInclude Include="JerkyDriver.h" />
-    <ClInclude Include="MotorDriver.h" />
+    <ClInclude Include="HBridgeDriver.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="__vm\.KidCar.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DefaultDriver.cpp" />
+    <ClCompile Include="DrvingWithUltrasoundSensor.cpp" />
     <ClCompile Include="UltrasoundSensor.cpp" />
-    <ClCompile Include="JerkyDriver.cpp" />
-    <ClCompile Include="Motor.cpp" />
+    <ClCompile Include="HBridgeDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="KidCar.rc" />
