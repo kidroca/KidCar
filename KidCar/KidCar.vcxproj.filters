@@ -24,10 +24,7 @@
     <ClInclude Include="__vm\.KidCar.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MotorDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DefaultDriver.h">
+    <ClInclude Include="HBridgeDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -36,21 +33,21 @@
     <ClInclude Include="UltrasoundSensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JerkyDriver.h">
+    <ClInclude Include="DrivingBehavior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrvingWithUltrasoundSensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Motor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DefaultDriver.cpp">
+    <ClCompile Include="HBridgeDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UltrasoundSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JerkyDriver.cpp">
+    <ClCompile Include="DrvingWithUltrasoundSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

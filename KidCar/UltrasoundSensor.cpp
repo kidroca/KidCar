@@ -3,16 +3,16 @@
 
 UltrasoundSensor* UltrasoundSensor::_instance(NULL);
 
-UltrasoundSensor::UltrasoundSensor(int trigger, int echo, int interrupt, int max_dist)
-    : _trigger(trigger), _echo(echo), _int(interrupt), _max(max_dist), _finished(false)
+UltrasoundSensor::UltrasoundSensor(int trigger, int echo, int max_dist)
+    : _trigger(trigger), _echo(echo), _max(max_dist * 58), _finished(false)
 {
     if (_instance == 0) _instance = this;
 }
 
 void UltrasoundSensor::init() {
     pinMode(_trigger, OUTPUT);
-    digitalWrite(_trigger, LOW);
     pinMode(_echo, INPUT);
+
     //attachInterrupt(digitalPinToInterrupt(_echo), _echo_isr, CHANGE);
 }
 
@@ -26,7 +26,10 @@ void UltrasoundSensor::start() {
 unsigned int UltrasoundSensor::measure()
 {
     start();
-    return pulseIn(_echo, HIGH) / 58;
+    const unsigned int measured = pulseIn(_echo, HIGH, _max) / 58;
+    if (measured == 0) return _max;
+
+    return measured;
 }
 
 unsigned int UltrasoundSensor::getRange() {
