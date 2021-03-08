@@ -37,20 +37,9 @@ void DrvingWithUltrasoundSensor::drive()
 		evade();
 		digitalWrite(ledPin, LOW);
 	}
-	else if (distance < NEAR) {
-		apply(FORWARD, CRAWL);
-	}
-	else if (distance < MEDIUM) {
-		apply(FORWARD, CAUTIOUS);
-	}
-	else if (distance < FAR) {
-		apply(FORWARD, CASUAL);
-	}
-	else if (distance < VERY_FAR) {
-		apply(FORWARD, HASTE);
-	}
 	else {
-		apply(FORWARD, FURY);
+		unsigned int nextSpeed = map(distance, THRESHOLD, FAR, CASUAL, FURY);
+		apply(FORWARD, constrain(nextSpeed, CASUAL, FURY));
 	}
 }
 
@@ -70,50 +59,40 @@ void DrvingWithUltrasoundSensor::evade()
 	apply(FORWARD, STOP);
 	delay(150);
 	apply(REVERSE, HASTE);
-	delay(200);
+	delay(250);
 
 	apply(REVERSE, STOP);
 	delay(300);
 
 	const uint16_t scanSize = 6;
 	unsigned int maxDistance = 0;
-	unsigned int nextDistance = 0;
 	uint16_t farthest = scanSize / 2;
 
-	bool flip = random(1, 100) > 50;
-	Direction scanDirection = flip ? RIGHT : LEFT;
-	Direction backTrackDirection = flip ? LEFT : RIGHT;
+	Direction scanDirection = random(0, 1) ? RIGHT : LEFT;
 
 	for (uint16_t i = 1; i <= scanSize; i++)
 	{
 		apply(scanDirection, FURY);
 		delay(200);
 		apply(scanDirection, STOP);
-		
-		for (uint16_t j = 0; j < scanSize * 3; j++)
-		{
-			nextDistance += sensor->measure();
-			nextDistance /= 2;
-		}
+		delay(125);
+
+		unsigned int nextDistance = sensor->measure();
 
 		if (nextDistance > maxDistance) {
 			farthest = i;
 			maxDistance = nextDistance;
 		}
-
-		nextDistance = 0;
 	}
 
-	for (uint16_t i = scanSize; i > farthest; i++)
+	Direction backTrackDirection = scanDirection == RIGHT ? LEFT : RIGHT;
+
+	for (uint16_t i = scanSize; i > farthest; i--)
 	{
 		apply(backTrackDirection, FURY);
 		delay(200);
-
-		for (uint16_t j = 0; j < scanSize * 3; j++)
-		{
-			apply(backTrackDirection, STOP);
-			sensor->measure();
-		}
+		apply(backTrackDirection, STOP);
+		delay(125);
 	}
 }
 

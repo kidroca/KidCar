@@ -11,7 +11,7 @@
 
 class UltrasoundSensor {
 public:
-    UltrasoundSensor(int trigger, int echo, int max_dist = 400);
+    UltrasoundSensor(int trigger, int echo, int max_dist = 500);
 
     void init();
     void start();

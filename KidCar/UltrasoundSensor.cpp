@@ -26,7 +26,10 @@ void UltrasoundSensor::start() {
 unsigned int UltrasoundSensor::measure()
 {
     start();
-    return pulseIn(_echo, HIGH, _max) / 58;
+    const unsigned int measured = pulseIn(_echo, HIGH, _max) / 58;
+    if (measured == 0) return _max;
+
+    return measured;
 }
 
 unsigned int UltrasoundSensor::getRange() {
