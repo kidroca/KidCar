@@ -15,6 +15,19 @@ class DrivingBehavior: LoopHandler
 {
 protected:
 	HBridgeDriver * motorDriver;
+	Direction direction;
+	int speed;
+
+	void apply(Direction nextDir, int nextSpeed)
+	{
+		if (direction != nextDir || speed != nextSpeed) {
+			motorDriver->move(nextDir, nextSpeed);
+
+			speed = nextSpeed;
+			direction = nextDir;
+		}
+	}
+
  public:
 	 DrivingBehavior(HBridgeDriver * driver)
 	 {
@@ -22,7 +35,7 @@ protected:
 	 };
 	 virtual void onLoop() = 0;
 	 virtual void init() { motorDriver->init(); };
-	 virtual void stop() { motorDriver->move(FORWARD, 0); };
+	 virtual void stop() { motorDriver->move(FORWARD, 0); direction = NONE; };
 };
 
 #endif

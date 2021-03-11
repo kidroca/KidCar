@@ -45,17 +45,6 @@ void DrvingWithUltrasoundSensor::onLoop()
 	}
 }
 
-
-void DrvingWithUltrasoundSensor::apply(Direction nextDir, int nextSpeed)
-{
-	if (direction != nextDir || speed != nextSpeed) {
-		motorDriver->move(nextDir, nextSpeed);
-
-		speed = nextSpeed;
-		direction = nextDir;
-	}
-}
-
 void DrvingWithUltrasoundSensor::evade()
 {
 	apply(FORWARD, STOP);

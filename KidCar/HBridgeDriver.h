@@ -11,7 +11,8 @@ enum Direction {
 	FORWARD,
 	REVERSE,
 	LEFT,
-	RIGHT
+	RIGHT,
+	NONE,
 };
 
 class HBridgeDriver {
