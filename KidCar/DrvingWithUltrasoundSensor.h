@@ -20,20 +20,16 @@ class DrvingWithUltrasoundSensor : public DrivingBehavior
 		 : DrivingBehavior(driver), sensor(sensor), ledPin(ledPin)
 	  {}
 	 void init();
-	 void drive();
+	 void onLoop();
 
 private:
 	UltrasoundSensor* sensor;
-	Direction direction;
-	int speed;
 	int ledPin;
 	unsigned long pastDistanceLastCheckMs { 0 };
 	unsigned long pastDistance { 0 };
 
-	void apply(Direction nextDir, int nextSpeed);
 	void evade();
 	bool isStuck(unsigned int distance);
 };
 
 #endif
-

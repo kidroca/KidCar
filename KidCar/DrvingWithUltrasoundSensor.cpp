@@ -25,32 +25,23 @@ void DrvingWithUltrasoundSensor::init()
 	pinMode(ledPin, OUTPUT);
 }
 
-void DrvingWithUltrasoundSensor::drive()
+void DrvingWithUltrasoundSensor::onLoop()
 {
-	unsigned int distance = sensor->measure();
+	sensor->onLoop();
+
+	unsigned int distance = sensor->getRange();
 
 	if (distance < THRESHOLD) {
-		evade();
+		//evade();
 	}
 	else if (isStuck(distance)) {
 		digitalWrite(ledPin, HIGH);
-		evade();
+		//evade();
 		digitalWrite(ledPin, LOW);
 	}
 	else {
 		unsigned int nextSpeed = map(distance, THRESHOLD, FAR, CASUAL, FURY);
 		apply(FORWARD, constrain(nextSpeed, CASUAL, FURY));
-	}
-}
-
-
-void DrvingWithUltrasoundSensor::apply(Direction nextDir, int nextSpeed)
-{
-	if (direction != nextDir || speed != nextSpeed) {
-		motorDriver->move(nextDir, nextSpeed);
-
-		speed = nextSpeed;
-		direction = nextDir;
 	}
 }
 
