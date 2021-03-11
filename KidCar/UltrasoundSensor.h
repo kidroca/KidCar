@@ -5,27 +5,25 @@
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
+    #include "LoopHandler.h"
 #else
 	#include "WProgram.h"
 #endif
 
-class UltrasoundSensor {
+class UltrasoundSensor: LoopHandler {
 public:
     UltrasoundSensor(int trigger, int echo, int max_dist = 500);
 
     void init();
-    void start();
+    void onLoop();
     unsigned int measure();
-    bool isFinished();
     unsigned int getRange();
     static UltrasoundSensor* instance() { return _instance; }
 
 private:
-    static void _echo_isr();
-
-    int _trigger, _echo, _int, _max;
-    volatile unsigned long _start, _end;
-    volatile bool _finished;
+    int _trigger, _echo, _max, _phase;
+    unsigned long _phaseTime { 0 };
+    unsigned long _pulseTime { 0 };
     static UltrasoundSensor* _instance;
 };
 

@@ -4,6 +4,7 @@
  Author:	kidro
 */
 
+#include "LoopHandler.h"
 #include "DrvingWithUltrasoundSensor.h"
 #include "DrivingBehavior.h"
 #include "HBridgeDriver.h"
@@ -32,5 +33,5 @@ void setup() {
 }
 
 void loop() {
-	drivingBehavior->drive();
+	drivingBehavior->onLoop();
 }

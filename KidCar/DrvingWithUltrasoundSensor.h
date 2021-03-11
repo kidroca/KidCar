@@ -20,7 +20,7 @@ class DrvingWithUltrasoundSensor : public DrivingBehavior
 		 : DrivingBehavior(driver), sensor(sensor), ledPin(ledPin)
 	  {}
 	 void init();
-	 void drive();
+	 void onLoop();
 
 private:
 	UltrasoundSensor* sensor;

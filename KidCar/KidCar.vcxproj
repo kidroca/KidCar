@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClInclude Include="DrivingBehavior.h" />
     <ClInclude Include="DrvingWithUltrasoundSensor.h" />
+    <ClInclude Include="LoopHandler.h" />
     <ClInclude Include="UltrasoundSensor.h" />
     <ClInclude Include="HBridgeDriver.h" />
     <ClInclude Include="resource.h" />
@@ -136,7 +137,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties arduino.upload.port="COM5" config.Debug.customdebug_uno_debugger_type="universal" />
+      <UserProperties arduino.upload.port="COM1" config.Debug.customdebug_uno_debugger_type="universal" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
