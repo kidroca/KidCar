@@ -24,28 +24,22 @@ void HBridgeDriver::move(Direction dir, int speed = 200)
 	switch (dir)
 	{
 	case FORWARD:
-		digitalWrite(in1, HIGH);
-		digitalWrite(in2, LOW);
-		digitalWrite(in4, HIGH);
+		digitalWrite(in1, LOW);
+		digitalWrite(in2, HIGH);
 		digitalWrite(in3, LOW);
+		digitalWrite(in4, HIGH);
 		break;
 	case REVERSE:
-		digitalWrite(in1, LOW);
-		digitalWrite(in2, HIGH);
-		digitalWrite(in4, LOW);
-		digitalWrite(in3, HIGH);
-		break;
-	case LEFT:
-		digitalWrite(in1, LOW);
-		digitalWrite(in2, HIGH);
-		digitalWrite(in4, HIGH);
-		digitalWrite(in3, LOW);
-		break;
-	case RIGHT:
 		digitalWrite(in1, HIGH);
 		digitalWrite(in2, LOW);
-		digitalWrite(in4, LOW);
 		digitalWrite(in3, HIGH);
+		digitalWrite(in4, LOW);
+		break;
+	case LEFT:
+		analogWrite(enA, 0);
+		break;
+	case RIGHT:
+		analogWrite(enB, 0);
 		break;
 	default:
 		break;
